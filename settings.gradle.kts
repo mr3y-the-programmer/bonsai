@@ -7,6 +7,7 @@ dependencyResolutionManagement {
     }
 }
 
+rootProject.name = "bonsai"
 include(
     ":sample",
     ":bonsai-core",
@@ -14,5 +15,4 @@ include(
     ":bonsai-json",
 )
 
-enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

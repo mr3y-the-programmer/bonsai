@@ -6,6 +6,7 @@ plugins {
 apply from: "../android-module.gradle"
 
 android {
+    namespace = "cafe.adriel.bonsai.sample"
     defaultConfig {
         applicationId "cafe.adriel.bonsai.sample"
     }

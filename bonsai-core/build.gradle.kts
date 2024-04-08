@@ -5,11 +5,11 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-kotlinMultiplatform()
+kotlinMultiplatform("cafe.adriel.bonsai.core")
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 compileOnly(compose.runtime)
                 compileOnly(compose.foundation)

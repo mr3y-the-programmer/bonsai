@@ -5,11 +5,11 @@ plugins {
     id("com.vanniktech.maven.publish")
 }
 
-kotlinMultiplatform()
+kotlinMultiplatform("cafe.adriel.bonsai.filesystem")
 
 kotlin {
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(projects.bonsaiCore)
                 api(libs.okio)

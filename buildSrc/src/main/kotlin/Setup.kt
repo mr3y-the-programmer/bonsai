@@ -6,8 +6,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.android.build.gradle.LibraryExtension
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
-private fun BaseExtension.android() {
+private fun BaseExtension.android(namespace: String) {
+    this.namespace = namespace
     compileSdkVersion(34)
     defaultConfig {
         minSdk = 21
@@ -17,50 +19,35 @@ private fun BaseExtension.android() {
     }
 }
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 fun Project.kotlinMultiplatform(
+    namespace: String,
     explicitMode: Boolean = true
 ) {
     extensions.configure<KotlinMultiplatformExtension> {
-        android {
+        androidTarget {
             publishAllLibraryVariants()
         }
         jvm("desktop")
 
-        sourceSets {
-            /* Source sets structure
+        /* Source sets structure
             common
-              ├─ jvm
+              ├─ jvmShared
                   ├─ android
                   ├─ desktop
-             */
-            val commonMain by getting
-            val commonTest by getting
-
-            val jvmMain by creating {
-                dependsOn(commonMain)
-            }
-            val jvmTest by creating {
-                dependsOn(commonTest)
-            }
-
-            val androidMain by getting {
-                dependsOn(jvmMain)
-            }
-            val androidTest by getting {
-                dependsOn(jvmTest)
-            }
-
-            val desktopMain by getting {
-                dependsOn(jvmMain)
-            }
-            val desktopTest by getting {
-                dependsOn(jvmTest)
+         */
+        applyHierarchyTemplate {
+            common {
+                group("jvmShared") {
+                    withAndroidTarget()
+                    withJvm()
+                }
             }
         }
     }
 
     extensions.configure<LibraryExtension> {
-        android()
+        android(namespace)
         sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
 
