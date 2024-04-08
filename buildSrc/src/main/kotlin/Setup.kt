@@ -32,13 +32,13 @@ fun Project.kotlinMultiplatform(
 
         /* Source sets structure
             common
-              ├─ jvmShared
+              ├─ jvm
                   ├─ android
                   ├─ desktop
          */
         applyHierarchyTemplate {
             common {
-                group("jvmShared") {
+                group("jvm") {
                     withAndroidTarget()
                     withJvm()
                 }
